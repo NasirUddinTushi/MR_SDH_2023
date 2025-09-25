@@ -1,0 +1,144 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+<style>
+  /* === THEME VARIABLES ===
+     Default: LIGHT. Override for dark when Unfold toggles the attribute/class. */
+  :root {
+    --card-bg: #ffffff;
+    --panel-bg: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --card-text: #0f172a; /* slate-900 */
+    --muted: #6b7280;     /* gray-500 */
+    --table-border: rgba(0,0,0,0.08);
+    --row-hover: rgba(0,0,0,0.035);
+  }
+  html[data-theme="dark"],
+  html[data-mode="dark"],
+  .dark {
+    --card-bg: #0b1020;
+    --panel-bg: #0b1020;
+    --card-border: rgba(255,255,255,0.12);
+    --card-text: #e5e7eb;  /* gray-200 */
+    --muted: #9ca3af;      /* gray-400 */
+    --table-border: rgba(255,255,255,0.10);
+    --row-hover: rgba(255,255,255,0.04);
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    display: block;
+    padding: 18px 20px;
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    background: var(--card-bg);
+    color: var(--card-text);
+    text-decoration: none;
+    position: relative;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .2s ease, background .2s ease;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04);
+  }
+  .kpi-card:hover { transform: translateY(-1px); border-color: var(--accent, #6366f1); box-shadow: 0 10px 24px rgba(0,0,0,.12); }
+  .kpi-title { font-size: 12px; letter-spacing: .2px; color: var(--muted); margin-bottom: 8px; text-transform: none; }
+  .kpi-value { font-size: 28px; font-weight: 700; line-height: 1.1; }
+  .kpi-icon { position: absolute; right: 16px; top: 14px; width: 22px; height: 22px; opacity: .9; color: var(--accent, #6366f1); }
+
+  .panel {
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    background: var(--panel-bg);
+    padding: 18px 20px;
+  }
+  .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .panel-title { margin: 0; font-size: 16px; font-weight: 600; color: var(--card-text); }
+  .panel-link { color: #6366f1; text-decoration: none; font-weight: 500; }
+  .panel-link:hover { text-decoration: underline; }
+
+  .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .table thead th {
+    text-align: left; padding: 10px; color: var(--muted);
+    border-bottom: 1px solid var(--table-border);
+    font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .3px;
+  }
+  .table tbody td { padding: 12px 10px; border-bottom: 1px solid var(--table-border); color: var(--card-text); }
+  .table tbody tr:hover { background: var(--row-hover); }
+  .badge { display: inline-block; padding: 4px 10px; font-size: 11px; font-weight: 700; border-radius: 999px; }
+  .badge--read   { color: #059669; background: rgba(5,150,105,.12); }
+  .badge--unread { color: #7c3aed; background: rgba(124,58,237,.15); }
+</style>
+{% endblock %}
+
+{% block content %}
+
+  {% if cards %}
+  <div class="kpi-grid">
+    {% for c in cards %}
+      <a href="{{ c.url }}" class="kpi-card" style="--accent: {{ c.accent|default:'#6366f1' }};">
+        <span class="kpi-title">{{ c.title }}</span>
+        <div class="kpi-value">{{ c.count }}</div>
+
+        {# tiny inline icons #}
+        {% if c.icon == "mail" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% elif c.icon == "users" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M2 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="8" r="2" stroke="currentColor" stroke-width="1.6"/><path d="M18 20h4a5 5 0 0 0-5-5" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% elif c.icon == "badge" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l3 3h4v4l3 3-3 3v4h-4l-3 3-3-3H5v-4l-3-3 3-3V6h4l3-3z" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% elif c.icon == "trending" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 7-7" stroke="currentColor" stroke-width="1.6"/><path d="M14 8h7v7" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% elif c.icon == "inbox" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><path d="M3 7h18l-3 10H6L3 7z" stroke="currentColor" stroke-width="1.6"/><path d="M7 13h4a3 3 0 0 0 6 0h4" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% elif c.icon == "sparkles" %}
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" stroke="currentColor" stroke-width="1.6"/></svg>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if recent_messages %}
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">{% trans "Recent messages" %}</h2>
+      <a class="panel-link" href="{% url 'unfold_admin:cms_contactmessage_changelist' %}">{% trans "View all" %}</a>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Email" %}</th>
+            <th>{% trans "Phone" %}</th>
+            <th>{% trans "Time" %}</th>
+            <th>{% trans "Status" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in recent_messages %}
+          <tr>
+            <td><a href="{% url 'unfold_admin:cms_contactmessage_change' m.id %}">{{ m.name }}</a></td>
+            <td>{{ m.email }}</td>
+            <td>{{ m.phone }}</td>
+            <td>{{ m.timestamp|date:"M j, Y, g:i a" }}</td>
+            <td>
+              {% if m.is_read %}
+                <span class="badge badge--read">Read</span>
+              {% else %}
+                <span class="badge badge--unread">Unread</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+{% endblock %}
