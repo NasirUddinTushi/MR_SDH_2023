@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "ee71eea9-7bce-4dc1-8d40-ee81a630133c",
+		"name": "MrSDh2023",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46544446",
+		"_collection_link": "https://codehydra-4973.postman.co/workspace/Team-Workspace~1b2ffb18-7042-4c0f-8292-ae83a47cc535/collection/46544446-ee71eea9-7bce-4dc1-8d40-ee81a630133c?action=share&source=collection_link&creator=46544446"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Nasir Uddin\",\r\n  \"email\": \"mdnasir9712@gmail.com\",\r\n  \"phone\": \"01603590565\",\r\n  \"password\": \"Test@12345\",\r\n  \"confirm_password\": \"Test@12345\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}account/register/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"mdnasir9712@gmail.com\",\r\n  \"password\": \"Test@12345\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}account/login/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjcxMDQ5LCJpYXQiOjE3NTc1ODQ2NDksImp0aSI6IjA2NmJlMmM4MDA3ODQ3N2E5MTA4ZjI3YTA4MTJmNWQwIiwidXNlcl9pZCI6IjMifQ.vujcgEfUG815ICzNaq-6bHjhCM2wJ9mPFoT1UCmEOUo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}account/profile/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjcxMDQ5LCJpYXQiOjE3NTc1ODQ2NDksImp0aSI6IjA2NmJlMmM4MDA3ODQ3N2E5MTA4ZjI3YTA4MTJmNWQwIiwidXNlcl9pZCI6IjMifQ.vujcgEfUG815ICzNaq-6bHjhCM2wJ9mPFoT1UCmEOUo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profile_photo",
+									"type": "file",
+									"src": "/C:/Users/Nasir Uddin/Downloads/images.jpg"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}account/profile/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot_password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}account/reset-password/request-otp/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"reset-password",
+								"request-otp",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Veryfy_Otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}account/reset-password/verify-otp/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"reset-password",
+								"verify-otp",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set_New_password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mdnasir9712@gmail.com\",\r\n    \"otp\":\"2408\"\r\n    \r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}account/reset-password/verify-otp/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"reset-password",
+								"verify-otp",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change_password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjcxMDQ5LCJpYXQiOjE3NTc1ODQ2NDksImp0aSI6IjA2NmJlMmM4MDA3ODQ3N2E5MTA4ZjI3YTA4MTJmNWQwIiwidXNlcl9pZCI6IjMifQ.vujcgEfUG815ICzNaq-6bHjhCM2wJ9mPFoT1UCmEOUo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"current_password\": \"Test@12345\",\r\n  \"new_password\": \"NewPass@123\",\r\n  \"confirm_password\": \"NewPass@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}account/change-password/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"change-password",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3NjcxMDQ5LCJpYXQiOjE3NTc1ODQ2NDksImp0aSI6IjA2NmJlMmM4MDA3ODQ3N2E5MTA4ZjI3YTA4MTJmNWQwIiwidXNlcl9pZCI6IjMifQ.vujcgEfUG815ICzNaq-6bHjhCM2wJ9mPFoT1UCmEOUo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}account/logout/",
+							"host": [
+								"{{base_url}}account"
+							],
+							"path": [
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CMS",
+			"item": [
+				{
+					"name": "cms",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profile",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Base_url}}cms/",
+							"host": [
+								"{{Base_url}}cms"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contacts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nasir Uddihn\",\r\n    \"email\": \"nasir@example.com\",\r\n    \"phone\": \"+1234567890\",\r\n    \"message\": \"Hello! I would like to know more about your services.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}cms/contact/",
+							"host": [
+								"{{base_url}}cms"
+							],
+							"path": [
+								"contact",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
